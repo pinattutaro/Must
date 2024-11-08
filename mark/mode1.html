@@ -2,13 +2,8 @@
 <html>
 	<head>
 		<title>mode1</title>
-		<link rel="stylesheet" href="header.css">
+		<link rel="stylesheet" href="../style/header.css">
 		<style type="text/css">
-			@font-face {
-				font-family: "shojo";
-				src: url('../dl_font/少女終末旅行.otf');
-			}
-
 			body {
 				width: 100vw;
 				overflow-x: hidden;
@@ -122,16 +117,16 @@
 				<a id="title"href=""><span>M</span>ust</a>
 			</div>
 			<div id="tool">
-				<div style="background-image: url('back.svg');">
+				<div style="background-image: url('../img/back.svg');">
 					<input id="backColor" type="color" value="#ffffff">
 				</div>
-				<div style="background-image: url('T.svg'); background-size: 70%; background-position: 50% 50%;">
+				<div style="background-image: url('../img/T.svg'); background-size: 70%; background-position: 50% 50%;">
 					<input id="textColor" type="color" value="#000000">
 				</div>
-				<div style="background-image: url('marker_border.svg');">
+				<div style="background-image: url('../img/marker_border.svg');">
 					<input id="markerColor" type="color" value="#00ffff">
 				</div>
-				<div style="background-image: url('view.svg');" onclick="downloadPDF()"></div>
+				<div style="background-image: url('../img/view.svg');" onclick="downloadPDF()"></div>
 			</div>
 			<div id="box">
 				<textarea id="text" class="form"></textarea>
