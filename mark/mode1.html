@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>mode1</title>
+		<link rel="stylesheet" href="header.css">
+		<style type="text/css">
+			@font-face {
+				font-family: "shojo";
+				src: url('../dl_font/少女終末旅行.otf');
+			}
+
+			body {
+				width: 100vw;
+				overflow-x: hidden;
+				display: grid;
+				margin: 0px;
+				background: linear-gradient(to right, #6a11cb, #2575fc);
+			}
+
+			#content {
+				width: 100%;
+
+				display: grid;
+				grid-template-rows: var(--headerHeight) var(--headerHeight) calc(100vh - var(--headerHeight)*2);
+				/*padding: 0px 10vw;*/
+
+				& > div:not(#header) {
+					width: 80vw;
+					background: rgba(255, 255, 255, 0.1);
+					margin: 0px 10vw;
+				}
+
+			/*#header {
+                width: 100%;
+                background-color: rgba(0, 0, 0, 0.7);
+
+                #title {
+                    padding: 0px 30px;
+                    font-size: 60px;
+                    line-height: var(--headerHeight);
+                    color: white;
+                    overflow-x: hidden;
+                    font-family: "mohaveI";
+                    font-family: sans-serif;
+                    user-select: none;
+
+                    & > span {
+                        color: cyan;
+                    }
+                }
+            }*/
+
+				#tool {
+					display: grid;
+					grid-template-columns: repeat(4, var(--headerHeight));
+
+					& > div {
+						background-size: 100%;
+						background-repeat: no-repeat;
+						border: solid 1px #ccc;
+						box-sizing: border-box;
+						background-color: rgba(255, 255, 255, 0.5);
+
+						& > input {
+							opacity: 0;
+							width: 100%;
+							height: 100%;
+						}
+					}
+				}
+
+				#box {
+					display: grid;
+
+					& > .form {
+						font-family: serif;
+						font-size: 30px;
+						color: black;
+						padding: 10px;
+						margin: 0px;
+						border: solid 1px #000;
+						min-width: 300px;
+						min-height: 80vh;
+						height: auto;
+						word-break: break-all;
+						grid-column: 1;
+						grid-row: 1;
+						resize: none;
+
+						&#agent {
+							z-index: -999;
+							grid-row: 1;
+							background: rgba(255,255,255,1);
+							color: rgba(0,0,0,1);
+							position: relative;
+							top: 0px;
+						}
+
+						&#text {
+							overflow: hidden;
+							opacity: 1;
+							background: rgba(255,255,255,0);
+						}
+					}
+				}				
+			}
+
+
+
+		</style>
+		<style id="color">
+			#agent > span {
+				background-color: cyan;
+			}
+		</style>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>		
+	</head>
+	<body>
+		<div id="content">
+			<div id="header">
+				<a id="title"href=""><span>M</span>ust</a>
+			</div>
+			<div id="tool">
+				<div style="background-image: url('back.svg');">
+					<input id="backColor" type="color" value="#ffffff">
+				</div>
+				<div style="background-image: url('T.svg'); background-size: 70%; background-position: 50% 50%;">
+					<input id="textColor" type="color" value="#000000">
+				</div>
+				<div style="background-image: url('marker_border.svg');">
+					<input id="markerColor" type="color" value="#00ffff">
+				</div>
+				<div style="background-image: url('view.svg');" onclick="downloadPDF()"></div>
+			</div>
+			<div id="box">
+				<textarea id="text" class="form"></textarea>
+				<span id="agent" class="form"></span>			
+			</div>			
+		</div>
+
+	</body>
+
+	<script type="text/javascript">
+		function xor(arr1, arr2) {//排他的和集合
+		    const combined = arr1.concat(arr2);
+		    let unique = [...new Set(combined)];
+		    //unique.filter(e => (arr1.indexOf(e) * arr2.indexOf(e)) <= 0);
+		    unique = unique.filter((e) => arr1.includes(e) ^ arr2.includes(e));
+		    return unique;
+		}
+
+		function compliment(unite, set) {//補集合
+			const res = [];
+			for(let i=unite[0];i<=unite[unite.length-1];i++) {
+				if(set.includes(i)) continue;
+				res.push(i);
+			}
+			return res;
+		}
+
+		function analogArr(start, end) {//連番
+			const res = [];
+			for(let i=start; i<=end;i++) {
+				res.push(i);
+			}
+			return res;
+		}
+
+		function getContinuos(set) {//連番数取得... [start, numbers of continuos]
+			const res = [];
+			let continuos = [];
+			for(let i=0;i<set.length;i++) {
+				const element = set[i];
+				if(continuos[0]+continuos[1] != element) {
+					if(continuos.length != 0) res.push(continuos);
+					continuos = [element, 1];
+				} else {
+					continuos[1]++;
+				}	
+			}
+			if (JSON.stringify(res[res.length-1]) != JSON.stringify(continuos)) res.push(continuos);
+			return res;
+		}
+
+		function getMaskedHTML(str, mask) {
+			if(mask.length == 0) return str.replace(/\n/g, "<br>");
+			let html = "";
+			const maskLen = getContinuos(mask);
+			const comLen = getContinuos(compliment(analogArr(0, str.length-1), mask));
+			//console.log(comLen);
+			if(comLen[0].length == 0) return `<span>${str.replace(/\n/g, "<br>")}</span>`;
+			lengs = maskLen.concat(comLen).sort((a,b) => {return a[0] - b[0]});
+			if(comLen[0][0] != 0) lengs.unshift([0,0]);
+			//console.log(lengs);
+			for(let i=0; i<lengs.length; i++) {
+				const state = i%2;
+				//console.log(str.substr(lengs[0], lengs[1]));
+				html += "<span>".repeat(state) + str.substr(lengs[i][0], lengs[i][1]) + "</span>".repeat(state);
+			}
+			//console.log(html);
+			return html.replace(/\n/g, "<br>");
+		}
+
+		async function downloadPDF() {
+			const { jsPDF } = window.jspdf; // jsPDFのインポート
+			const pdf = new jsPDF(); // 新しいPDFを作成
+			const content = document.getElementById("agent"); // PDFにしたい要素を取得
+
+			// html2canvasで要素を画像に変換
+			const canvas = await html2canvas(content, { scale: 2 });
+			const imgData = canvas.toDataURL("image/png"); // 画像データを取得
+
+			// 画像をPDFに追加
+			const imgWidth = 190; // PDFの幅に合わせた画像の横幅
+			const imgHeight = (canvas.height * imgWidth) / canvas.width; // 比率を保って高さを計算
+			pdf.addImage(imgData, "PNG", 10, 10, imgWidth, imgHeight);
+
+			// PDFをダウンロード
+			pdf.save("download.pdf");
+		}
+
+		const text = document.getElementById('text');
+		const agent = document.getElementById('agent');
+		let masks = [];
+		const [backC, textC, markC] = document.querySelectorAll("input[type=color]");
+		const color = document.getElementById('color');
+		backC.addEventListener('input', () => {
+			agent.style.background = backC.value;
+		});
+		textC.addEventListener('input', () => {
+			text.style.color = agent.style.color = textC.value;
+		});
+		markC.addEventListener('input', () => {
+			color.innerHTML = `#agent > span {background-color: ${markC.value};}`
+		})
+
+		text.addEventListener('select', () => {
+			//if (text.value.length == 0) return;
+			const start = text.selectionStart;
+			const end = text.selectionEnd-1;//キャレット位置ではなく、文字の位置を取得するため。
+			if(start == end+1) return;
+			//console.log(text.value.substr(start, end-start+1));
+			const nowArr = analogArr(start, end);
+			//console.log(nowArr);
+			masks = xor(nowArr, masks);
+			masks.sort((a,b) => {return a-b;});//昇順にソート
+			//console.log(masks, getContinuos(masks));
+			const html = getMaskedHTML(text.value, masks);
+			agent.innerHTML = html;
+			text.setSelectionRange(start, start);
+		});
+
+		text.addEventListener('input', (e) => {
+			//agent.innerHTML = text.value.replace(/\n/g, "<br>");
+			/*text.style.height = agent.clientHeight;
+			text.style.width = agent.clientWidth;*/
+			console.log(e);
+			const type = e.inputType;
+			//const len = e.data === null ? 0 : e.data.length;
+			const [len,pos] = (() => {
+				if (type == "insertCompositionText" || type == "insertLineBreak") {
+					const len = e.data === null ? 1 : 0;
+					const pos = e.target.selectionStart;
+					return [len, pos];
+				} else {
+					const len = e.data === null ? 0 : e.data.length;
+					const pos = e.target.selectionStart - len;
+					return [len, pos];
+				}
+			})();
+			//const pos = e.target.selectionStart-len;	
+			console.log(pos, len);	
+			const term = masks.includes(pos);				
+
+			if(type == "deleteContentBackward" || type == "deleteContentForward") {
+				console.log('delete');
+				masks = masks.filter(e => e != pos);
+				masks = masks.map(e => (e >= pos ? e-1 : e));
+			} else {
+				console.log('input');
+				masks = masks.map(e => (e >= pos ? e+len : e));
+				if (term) masks = masks.concat(analogArr(pos+2, pos+len));			
+				masks.sort((a,b) => {return a-b;});					
+			}
+
+			const html = getMaskedHTML(text.value, masks);
+			agent.innerHTML = html;
+			text.style.height = "auto";
+			text.style.height = text.scrollHeight + "px";
+			const value = text.value;
+		});
+	</script>
+</html>
