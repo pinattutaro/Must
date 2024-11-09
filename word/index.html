@@ -5,31 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>dictionary</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../style/header.css">
     <script type="module" src="./main.js" defer></script>
 </head>
 <body>
-    <div id="form">
-        <div>
-            <h2>単語入力フォーム</h2>
-            <input type="text" id="content1" placeholder="入力してください">
-        </div>
-        <div>
-            <h2>意味入力フォーム</h2>
-            <input type="text" id="content2" placeholder="入力してください">
-        </div>
-        <button id="button1">送信</button>
+    <div id="header">
+        <a href="../top/top.html"><span>M</span>ust</a>
     </div>
-    <div id="result">
-        <h2>単語帳</h2>
-        <div>
-            <div id="word">
-                <h3>単語</h3>
+    <div id="main">
+        <div id="form">
+            <div>
+                <h2>単語入力フォーム</h2>
+                <input type="text" id="content1" placeholder="入力してください">
             </div>
-            <div id="meaning">
-                <h3>意味</h3>
+            <div>
+                <h2>意味入力フォーム</h2>
+                <input type="text" id="content2" placeholder="入力してください">
             </div>
+            <button id="button1">送信</button>
         </div>
-        <button id="button2">追加</button>
+        <div id="result">
+            <h2>単語帳</h2>
+            <div>
+                <div id="word">
+                    <h3>単語</h3>
+                </div>
+                <div id="meaning">
+                    <h3>意味</h3>
+                </div>
+            </div>
+            <button id="button2">追加</button>
+        </div>        
     </div>
+
 </body>
 </html>

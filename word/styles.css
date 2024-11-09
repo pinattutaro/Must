@@ -1,5 +1,7 @@
 body{
     background: linear-gradient(to right, #6a11cb, #2575fc);
+    display: grid;
+    grid-template-rows: var(--headerHeight) calc(100vh - var(--headerHeight));
 }
 #vocabularyList {
     color: white;
@@ -14,6 +16,7 @@ body{
     border-radius: 5px;
     padding: 50px;
     text-align: center;
+
     & button{
         background-color: black;
         color: white;
