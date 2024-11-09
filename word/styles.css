@@ -2,6 +2,7 @@ body{
     background: linear-gradient(to right, #6a11cb, #2575fc);
     display: grid;
     grid-template-rows: var(--headerHeight) calc(100vh - var(--headerHeight));
+    margin: 0px;
 }
 #vocabularyList {
     color: white;
