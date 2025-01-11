@@ -1,0 +1,14 @@
+<svg fill="none" height="200" width="200" xmlns="http://www.w3.org/2000/svg" stroke="black" stroke-width="0.5">
+    <defs>
+        <mask id="mask">
+            <rect x="0" y="0" width="150" height="150" fill="white" />
+        </mask>
+    </defs>
+    <g mask="url(#mask)" transform="translate(25 25)">
+        <rect x="0.5" y="0.5" width="149" height="149" overflow="hidden"/>
+        <g fill="none">
+            <rect width="200" height="10" x="-100" y="50" transform="rotate(-45 0 55)"/>
+            <rect width="300" height="10" x="-100" y="100" transform="rotate(-45 0 105)"/>      
+        </g>        
+    </g>
+</svg>

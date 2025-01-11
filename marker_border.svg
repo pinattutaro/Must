@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+ <!-- Created with SVG-edit - https://github.com/SVG-Edit/svgedit-->
+ <g class="layer">
+  <title>Layer 1</title>
+  <g fill="none" id="svg_26" stroke="black" stroke-width="0.5">
+   <rect height="113.68" id="svg_3" opacity="0.95" width="28.28" x="81.54" y="42.31"/>
+   <rect height="19.99" id="svg_7" opacity="0.95" rx="2" ry="2" width="28.28" x="81.54" y="21.79"/>
+   <path d="m80.77,155.97l4.3,8.53l2,0l0,34.1l17.21,-15.16l0,-18.94l2,0l3.54,-8.53" id="svg_1"/>
+  </g>
+ </g>
+</svg>

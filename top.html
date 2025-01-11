@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Must top page</title>
+    <link rel="stylesheet" href="header.css">
+    <style>
+        :root {
+            --setup-dur: 0.5s;
+        }
+
+        @font-face {
+            font-family: "mohaveI";
+            src: url("../dl_font/Mohave-MediumItalic.ttf");
+        }
+
+        @keyframes title {
+            0% {
+                width: 50px;
+            }
+            50% {
+                width: 50px;
+            }
+            100% {
+                width: 140px;
+            }
+        }
+
+        @keyframes fade-in {
+            0%, 50% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes load {
+            0%, 25% {content: "";}
+            26%, 50% {content: ".";}
+            51%, 75% {content: "..";}
+            76%, 100% {content: "...";}
+        }
+
+        body {
+            width: 100vw;
+            margin: 0px;
+            overflow-x: hidden; 
+        }
+
+        #content {
+            --headerHeight: 15vh;
+            width: 100%;
+            /*padding: 0px 10px;*/
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            display: grid;
+            grid-template-rows: var(--headerHeight) calc(100vh - var(--headerHeight));
+
+            #header {
+                width: 100%;
+                background-color: rgba(0, 0, 0, 0.7);
+
+                #title {
+                    /*padding: 0px 30px;
+                    display: inline-block;
+                    font-size: 60px;
+                    line-height: var(--headerHeight);
+                    color: white;
+                    overflow-x: hidden;
+                    font-family: "mohaveI";
+                    font-family: sans-serif;
+                    user-select: none;*/
+                    animation-name: title;
+                    animation-duration: var(--setup-dur);
+                    animation-timing-function: ease-out;
+
+                    & > span {
+                        color: cyan;
+                    }
+                }
+            }
+
+            #main {
+                width: 80%;
+                margin: 0px 10%;
+                background-color: rgba(255, 255, 255, 0.1);
+                color: white;
+                animation-name: fade-in;
+                animation-duration: calc(var(--setup-dur) * 2);
+                animation-timing-function: linear;
+
+                & > div {
+                    width: 100%;
+                    text-align: center;
+                    margin-top: 30px;
+                }
+
+                #description {
+                    & > h1, h2 {
+                        margin: 5px;
+
+                        & > span {
+                            color: cyan;
+
+                        }
+                    }
+                }
+
+                #function {
+                    #funs {
+                        width: 80vw;
+                        /*border: solid 1px #ccc;*/
+                        overflow-x: hidden;
+                        display: grid;
+                        grid-template-columns: repeat(3, 1fr);
+                        grid-gap: 50px;
+
+                        & > a {
+                            display: grid;
+                            grid-template-rows: 70% 30%;
+                            align-items: center;
+                            /*border: solid 1px #ccc;*/
+                            aspect-ratio: 1;
+                            backdrop-filter: brightness(0.7);
+                            background-repeat: no-repeat;
+                            background-size: 100%;
+                            line-height: 100%;
+                            overflow: hidden;
+                            /*background-position: -230px -200px;*/
+                            color: white;
+                            text-decoration: none;
+                            font-size: 30px;
+
+                            &:nth-child(3) {
+                                grid-template-rows: 1fr;
+                            }
+
+                            & > span:after {
+                                display: inline-block;
+                                width: 0px;
+                                content: "...";
+                                animation-name: load;
+                                animation-duration: 1s;
+                                animation-timing-function: linear;
+                                animation-iteration-count: infinite;
+                            }
+
+                            & > div {
+                                display: block;
+                                grid-row: 2 / 3;
+                                position: relative;
+                                bottom: calc(-1 * 100%);
+                                transition: bottom 1s ease;
+                                backdrop-filter: brightness(1.5);
+                            }
+
+                            &:hover > div {
+                                bottom: 0px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="content">
+        <div id="header">
+            <span id="title" onclick="(() => {location.href = location.href})()"><span>M</span>ust</span>
+        </div>
+        <div id="main">
+            <div id="description">
+                <h2>英語学習アプリ</h2><h1><span>M</span>ust</h1><h2>へようこそ</h2>
+            </div>
+            <div id="function">
+                <h2>機能</h2>
+                <div id="funs">
+                    <a href="" style="background-image: url('word_tranlated.svg');"><div>vocabulary</div></a>
+                    <a href="" style="background-image: url('marker.svg');"><div>marker</div></a>
+                    <a href=""><span>creating on</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,27 @@
+:root {
+    --headerHeight: 15vh;
+}
+
+#header {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+
+    #title {
+        padding: 0px 30px;
+        font-size: 60px;
+        line-height: var(--headerHeight);
+        color: white;
+        overflow-x: hidden;
+        font-family: sans-serif;
+        user-select: none;
+        position: absolute;
+
+        & > span {
+            color: cyan;
+        }
+    }
+}
+
+a {
+    text-decoration: none;
+}

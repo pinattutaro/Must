@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>word vocabulary</title>
+    <link rel="stylesheet" href="header.css">
+    <script src="pdf1.js"></script>
+    <script src="pdf2.js"></script>		
+    <style>
+        body {
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            overflow: hidden;
+            margin: 0px;
+            padding: 0px;
+
+            display: grid;
+            grid-template-rows: var(--headerHeight) calc(100vh - var(--headerHeight));
+
+            user-select: none;
+        }
+
+        #print {
+            width: 100vw;
+            min-height: 100vh;
+            position: absolute;
+            z-index: -999;
+            background-color: rgba(255,255,255,0);
+            opacity: 0;
+
+            & > div {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                border: solid 1px #000;
+                box-sizing: border-box;
+
+                &:nth-child(odd) {
+                    background: #aaa;
+                }
+
+                &:nth-child(even) {
+                    background-color: white;
+                }
+
+                & > span {
+                    border: solid 1px #000;
+                    box-sizing: border-box;
+                    padding-left: 10px;
+                }
+            }
+        }
+
+        #content {
+            width: 100%;
+            height: 100%;
+            display: grid;
+
+            
+            grid-template-columns: 70% 30%;
+
+            & > div {
+                border: 1px solid black;
+                box-sizing:  border-box;
+            }
+
+            #files {
+                width: 20px;
+                height: 100%;
+                position: absolute;
+                left: 0px;
+                top: var(--headerHeight);
+                /* border: solid 1px #fff; */
+                box-sizing: border-box;
+                transition: width 0.5s;
+                opacity: 0;
+            }
+
+            #main {
+                display: grid;
+                place-items: center;
+
+                & > #form {
+                    width: 50%;
+                    height: 50%;
+                    display: grid;
+                    grid-template-rows: repeat(4, 1fr);
+                    gap: 30px;
+
+                    & > span {
+                        font-size: 50px;
+                        font-weight: lighter;
+                        line-height:  50px;
+                        text-align: center;
+                        color: rgba(255,255,255,0.7);
+                    }
+
+                    & > input {
+                        font-size: 30px;
+                    }
+
+                    & > #add {
+                        width: 50%;
+                        margin: 0px 25%;
+                    }
+                }
+            }
+
+            #side {
+                overflow-x: hidden;
+                padding: 10px 0px;
+                display: grid;
+                grid-template-rows: 50px 10px auto;
+                grid-gap: 10px;
+
+                #submit {
+                    width: 100%;
+                    font-size: 40px;
+                    line-height: 50px;
+                    text-align: center;
+                    
+                    span {
+                        border: solid 1px white;
+                        padding: 0px 10px;
+                    }
+
+                    &:active {
+                        transform: scale(0.9);
+                    }
+                }
+
+                #new > div {
+                    width: 80%;
+                    height: 2px;
+                    border-radius: 1px;
+                    margin: 4px 10%;
+                    background: white;
+                    box-shadow: 0 0 5px white;
+                    transition: width 0.5s, margin 0.5s, box-shadow 0.5s, height 0.5s;
+
+                    &:hover {
+                        width: 90%;
+                        height: 6px;
+                        margin: 3px 5%;
+                        box-shadow: 0 0 5px white, 0 0 10px white;
+                    }
+                }
+
+                #log > div {
+                    width: 80%;
+                    height: 150px;
+                    margin: 20px 10%;
+                    border: solid 1px white;
+                    display: grid;
+                    grid-template-rows: 30px repeat(2, 1fr);
+                    background: rgba(255,255,255,0.1);
+                    padding-bottom: 30px;
+                    user-select: none;
+
+                    &.selected {
+                        /* box-shadow: 0 0 5px white, 0 0 10px white; */
+                        transform: scale(1.1);
+                    }
+
+                    &:hover {
+                        box-shadow: 0 0 5px white, 0 0 10px white;
+                    }
+
+                    & > div {
+                        /* position: absolute;
+                        right: 0px;
+                        top: 0px; */
+                        height: 30px;
+                        color: red;
+                        font-size: 20px;
+                        text-align: right;
+                        line-height: 30px;
+                        padding-right: 10px;
+                        user-select: none;
+                    }
+
+                    & > span {
+                        font-size: 30px;
+                        font-weight: lighter;
+                        color: rgba(0,0,0,0.7);
+
+                        display: grid;
+                        place-items: center;
+
+                        &:nth-child(2) {
+                            font-size: 20px;
+                        }
+                    }    
+                }
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <a id="title" href="top.html"><span>M</span>ust</a>
+    </div>
+    <div id="content">
+        <div id="main">
+            <div id="form">
+                <span>単語入力フォーム</span>
+                <input type="text" id="word" placeholder="word">
+                <input type="text" id="meaning" placeholder="meaning">
+                <button id="add">commit</button>
+            </div>
+        </div>
+        <div id="side">
+            <div id="submit"><span>print</span></div>
+            <div id="new"><div></div></div>
+            <div id="log">
+                <div class="selected">
+                    <div>x</div>
+                    <span class="word">word</span>
+                    <span class="meaning">meaning</span>
+                </div>             
+            </div>
+        </div>
+        <div id="files"></div>
+    </div>
+    <div id="print"></div>
+</body>
+<script>
+    let files;
+
+    // fetch(`/files`, {
+    //     method: 'POST',
+    //     headers: {
+    //         'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify({ mode: "word"})
+    // })
+    // .then(response => {
+    //     if(!response.ok) console.log('err');
+    //     return response.json()
+    // })
+    // .then(data => {
+    //     console.log(data);
+    // })
+
+    const word = document.getElementById('word');
+    const meaning = document.getElementById('meaning');
+    const add = document.getElementById('add');
+    const logs = document.getElementById('log');
+    const create = document.getElementById('new');
+    const form = document.getElementById('form');
+    let selected = logs.querySelector('div.selected');
+    const submit = document.getElementById('submit');
+    const agent = document.getElementById('print');
+
+    create.addEventListener('click', () => {
+        const newLog = document.createElement('div');
+        const fst = logs.firstChild;
+        logs.insertBefore(newLog, fst);
+        commit(newLog, "word", "meaning")
+    });
+
+    form.addEventListener('keydown', (e) => {
+        if (e.key == "Enter") {
+            addLog();
+        }
+    });
+
+    add.addEventListener('click', addLog);
+
+    function addLog() {
+        if(word.value == "" || meaning.value == "") {
+            alert("word or meaning is empty");
+            return;
+        }
+        commit(selected, word.value, meaning.value);
+    }
+
+    function commit(log, newWord, newMeaning) {
+        const newLog = log;
+        newLog.innerHTML = `
+            <div>x</div>
+            <span class="word">${newWord}</span>
+            <span class="meaning">${newMeaning}</span>
+        `;
+
+        newLog.addEventListener('click', (e) => {
+            const t = newLog
+            for(let i=0;i<logs.children.length;i++) {
+                logs.children[i].classList.remove('selected');
+            }
+            t.className = "selected";
+            selected = t;
+            get(t);
+        });
+
+        newLog.querySelector('div').addEventListener('click', (e) => {
+            e.stopPropagation();
+            newLog.remove();
+
+            if(logs.children.length == 0) create.click();
+            logs.firstChild.click();
+        })
+
+        if(logs.children[0] == selected) {
+            const newLog = document.createElement('div');
+            logs.insertBefore(newLog, logs.firstChild);
+            commit(newLog, "word", "meaning");
+            newLog.click();
+            word.focus();
+        }
+    }
+
+    function isDefault(log) {
+        return log.querySelector('.word').textContent == "word" && log.querySelector('.meaning').textContent == "meaning";
+    }
+
+    function get(log) {
+        if (isDefault(log)) {
+            word.value = "";
+            meaning.value = "";
+            return;
+        }
+        word.value = log.querySelector('.word').textContent;
+        meaning.value = log.querySelector('.meaning').textContent;
+    }
+
+    async function downloadPDF() {
+        const { jsPDF } = window.jspdf; // jsPDFのインポート
+        const pdf = new jsPDF(); // 新しいPDFを作成
+        const content = agent; // PDFにしたい要素を取得
+        content.style.opacity = 1;
+
+        // html2canvasで要素を画像に変換
+        const canvas = await html2canvas(content, { scale: 2 });
+        const imgData = canvas.toDataURL("image/png"); // 画像データを取得
+        content.style.opacity = 0;
+        // 画像をPDFに追加
+        const imgWidth = 190; // PDFの幅に合わせた画像の横幅
+        const imgHeight = (canvas.height * imgWidth) / canvas.width; // 比率を保って高さを計算
+        pdf.addImage(imgData, "PNG", 10, 10, imgWidth, imgHeight);
+        // PDFをダウンロード
+        pdf.save("download.pdf");
+	}
+
+    submit.addEventListener('click', () => {
+        const child = logs.children;
+        console.log(child);
+        for(let i=0;i<child.length; i++) {
+            e = child[i];
+            if(isDefault(e)) continue;
+            w = e.querySelector('.word').textContent;
+            m = e.querySelector('.meaning').textContent;
+            agent.innerHTML += `<div><span>${w}</span><span>${m}</span></div>`;
+        }
+        downloadPDF()
+    })
+</script>
+</html>

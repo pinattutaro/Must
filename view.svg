@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" stroke="black" stroke-width="0.5" fill="none">
+ <!-- Created with SVG-edit - https://github.com/SVG-Edit/svgedit-->
+    <g transform="translate(50,25)">
+        <path d="m0,0l0,150l100,0l0,-120l-30,-30l0,30l30,0l-30,-30L0,0" />
+        <g fill="none">
+            <rect x="10" y="40" width="80" height="5" rx="2" ry="2"/>  
+            <rect x="10" y="65" width="80" height="5" rx="2" ry="2"/>  
+            <rect x="10" y="90" width="80" height="5" rx="2" ry="2"/>   
+            <rect x="10" y="115" width="80" height="5" rx="2" ry="2"/>       
+        </g>        
+    </g>
+
+</svg>
